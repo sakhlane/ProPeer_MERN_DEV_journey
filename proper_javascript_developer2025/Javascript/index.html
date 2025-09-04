@@ -1,0 +1,61 @@
+<!-- Asynchronous Javascript -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asynchronous javascript</title>
+  </head>
+  <body>
+    <h1>Asynchronous javascript</h1>
+
+    <script>
+      console.log("learning a synchronous javascript");
+
+      // get data from a server using xhr
+
+      // const xhr = new XMLHttpRequest();
+      // // console.log(xhr);
+      //   xhr.responseType ='json'
+      // xhr.addEventListener('load',()=>{
+      //   console.log(xhr.response.users[1].id)
+      // })
+
+      // xhr.open("GET",'https://dummyjson.com/users');
+      // xhr.send();
+
+      // make http request for reusability
+
+      function makeHttpRequest (method,url,callback) {
+        // callback()
+         const xhr = new XMLHttpRequest();
+      // console.log(xhr);
+      // callback()// we can call before the data fetch 
+        xhr.responseType ='json'
+      xhr.addEventListener('load',()=>{
+        // console.log(xhr.response.users)
+        callback(xhr.response)
+      })
+
+      xhr.open(method,url);
+      xhr.send();
+      }
+          // call back hell
+      makeHttpRequest("GET",'https://dummyjson.com/users',(usersData)=>{
+        console.log(usersData)//usersData 
+        console.log(usersData.users[0].id) //particular user id
+        makeHttpRequest("GET",`https://dummyjson.com/posts/${usersData.users[0].id}`,(userPost)=>{
+          console.log(userPost) //user Post
+          makeHttpRequest("GET",`https://dummyjson.com/comments/${usersData.users[0].id}`,(userComment)=>{
+            console.log(userComment) //user Comment 
+            makeHttpRequest("GET",`https://dummyjson.com/todos/${usersData.users[0].id}`,(userTodos)=>{
+              console.log(userTodos);
+            })
+          })
+        })
+      });
+
+    </script>
+  </body>
+</html>
