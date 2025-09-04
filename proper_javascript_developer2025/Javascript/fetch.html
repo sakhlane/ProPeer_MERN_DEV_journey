@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch Api</title>
+</head>
+<body>
+   <h1>learning fetch Api</h1>
+   <script>
+    // fetch api
+        fetch("https://dummyjson.com/users").then((res)=>{
+            let response = res.json()
+            return response;
+        }).then((usersData)=>{
+            console.log(usersData.users[0].id);
+            fetch("https://dummyjson.com/posts/").then((res)=>{
+                return (res.json())
+            }).then((posts)=>{
+                console.log(posts);
+                return posts.posts[0]
+            }).then((user0) =>{
+                console.log(user0)
+            })
+        })
+
+        // make asyncfunction
+        async function makeAsyncFunction(){
+            try{
+            const url = "https://dummyjson.com/users"
+            const response = await fetch("https://dummyjson.com/users");
+            const data = await response.json();
+            console.log(data)
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+
+        makeAsyncFunction()
+   </script> 
+</body>
+</html>
